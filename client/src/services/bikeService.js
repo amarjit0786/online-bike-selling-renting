@@ -11,3 +11,11 @@ export const getAllBikes = async ()=>{
 
     return response.data;
 }
+
+
+// GET SINGLE BIKE
+export const getSingleBike = async (id) => {
+  const response = await API.get(`/bikes/${id}`);
+
+  return response.data;
+};

@@ -5,6 +5,7 @@ import Hero from "./components/Hero";
 import FeaturedBikes from "./components/FeaturedBikes";
 import Footer from "./components/Footer";
 import BikesPage from "./pages/BikesPage";
+import BikeDetailsPage from "./pages/BikeDetailsPage";
 
 function Home(){
   return(
@@ -22,6 +23,7 @@ function App(){
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/bikes" element={ <BikesPage />} />
+      <Route path="/bikes/:id" element={<BikeDetailsPage />} />
     </Routes>
     <Footer />
     </>
