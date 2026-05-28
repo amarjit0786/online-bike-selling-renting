@@ -9,6 +9,12 @@ import BikeDetailsPage from "./pages/BikeDetailsPage";
 import RegisterPage from "./pages/RegisterPage";
 import LoginPage from "./pages/LoginPage";
 
+import DashboardPage from "./pages/DashboardPage";
+
+import MyBookingsPage from "./pages/MyBookingsPage";
+
+import ProtectedRoute from "./routes/ProtectedRoute";
+
 function Home(){
   return(
     <>
@@ -28,6 +34,23 @@ function App(){
       <Route path="/bikes/:id" element={<BikeDetailsPage />} />
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/login" element={<LoginPage />} />
+      <Route
+  path="/dashboard"
+  element={
+    <ProtectedRoute>
+      <DashboardPage />
+    </ProtectedRoute>
+  }
+/>
+
+<Route
+  path="/my-bookings"
+  element={
+    <ProtectedRoute>
+      <MyBookingsPage />
+    </ProtectedRoute>
+  }
+/>
     </Routes>
     <Footer />
     </>

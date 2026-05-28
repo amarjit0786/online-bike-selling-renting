@@ -3,45 +3,34 @@ import { Link } from "react-router-dom";
 import { useContext } from "react";
 
 import { AuthContext } from "../context/AuthContext";
-import logoImg from "../assets/logo.png"
+import logoImg from "../assets/logo.png";
 
 function Navbar() {
-
   const { user, logout } = useContext(AuthContext);
 
   return (
     <nav className="bg-black text-white shadow-lg">
-
       <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-
-          {/* Logo */}
-       <Link to="/" className="flex items-center gap-2">
-          <img 
-            src={logoImg} 
-            alt="RideHub Logo" 
-            className="h-10 w-auto object-contain" 
+        {/* Logo */}
+        <Link to="/" className="flex items-center gap-2">
+          <img
+            src={logoImg}
+            alt="RideHub Logo"
+            className="h-10 w-auto object-contain"
           />
-          
+
           <span className="text-2xl font-bold text-yellow-400">RideHub</span>
         </Link>
 
-
         <div className="flex gap-6 items-center">
+          <Link to="/">Home</Link>
 
-          <Link to="/">
-            Home
-          </Link>
-
-          <Link to="/bikes">
-            Bikes
-          </Link>
-
+          <Link to="/bikes">Bikes</Link>
 
           {user ? (
             <>
-              <span className="text-yellow-400">
-                👋 {user.name}
-              </span>
+              <Link to="/dashboard">Dashboard</Link>
+              <span className="text-yellow-400">👋 {user.name}</span>
 
               <button
                 onClick={logout}
@@ -52,16 +41,11 @@ function Navbar() {
             </>
           ) : (
             <>
-              <Link to="/login">
-                Login
-              </Link>
+              <Link to="/login">Login</Link>
 
-              <Link to="/register">
-                Register
-              </Link>
+              <Link to="/register">Register</Link>
             </>
           )}
-
         </div>
       </div>
     </nav>
@@ -69,4 +53,3 @@ function Navbar() {
 }
 
 export default Navbar;
-      
