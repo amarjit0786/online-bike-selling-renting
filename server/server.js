@@ -6,6 +6,7 @@ const cookieParser =require("cookie-parser");
 const connectDB = require("./config/db");
 const authRoutes = require("./routes/authRoutes.js");
 const bikeRoutes = require("./routes/bikeRoutes");
+const bookingRoutes = require("./routes/bookingRoutes");
 
 dotenv.config();
 connectDB();
@@ -23,6 +24,7 @@ app.use(cookieParser());
 
 app.use("/api/auth",authRoutes);
 app.use("/api/bikes", bikeRoutes);
+app.use("/api/bookings", bookingRoutes);
 
 //test route
 
