@@ -6,6 +6,7 @@ import { getSingleBike } from "../services/bikeService";
 
 import { AuthContext } from "../context/AuthContext";
 import { createBooking } from "../services/bookingService";
+import FakePaymentModal from "../components/FakePaymentModal";
 
 function BikeDetailsPage() {
   const { id } = useParams();
@@ -23,6 +24,9 @@ function BikeDetailsPage() {
   const [endDate, setEndDate] = useState("");
 
   const [bookingMessage, setBookingMessage] = useState("");
+
+  const [showPayment, setShowPayment] =
+  useState(false);
 
   useEffect(() => {
     const fetchBike = async () => {
@@ -72,6 +76,37 @@ function BikeDetailsPage() {
       setBookingMessage(error.response?.data?.message || "Booking failed");
     }
   };
+
+  const handlePaymentSuccess = async () => {
+
+  try {
+
+    const data = await createBooking(
+      {
+        bikeId: bike._id,
+        startDate,
+        endDate,
+      },
+      token
+    );
+
+
+
+    setBookingMessage(
+      "🎉 Payment Successful & Bike Booked!"
+    );
+
+
+
+    setShowPayment(false);
+
+  } catch (error) {
+
+    setBookingMessage(
+      "Booking failed"
+    );
+  }
+};
 
   return (
     <section className="min-h-screen bg-gray-100 py-16">
@@ -142,11 +177,11 @@ function BikeDetailsPage() {
             {/* BUTTONS */}
             <div className="mt-10 flex gap-4">
               <button
-                onClick={handleBooking}
-                className="bg-yellow-400 text-black px-8 py-4 rounded-xl font-bold hover:scale-105 transition"
-              >
-                Rent Now
-              </button>
+  onClick={() => setShowPayment(true)}
+  className="bg-yellow-400 text-black px-8 py-4 rounded-xl font-bold hover:scale-105 transition"
+>
+  Pay & Rent Bike
+</button>
 
               <button className="bg-black text-white px-8 py-4 rounded-xl font-bold hover:bg-gray-800 transition">
                 Buy Now
@@ -161,6 +196,19 @@ function BikeDetailsPage() {
           </div>
         </div>
       </div>
+      {
+  showPayment && (
+    <FakePaymentModal
+      bike={bike}
+      onClose={() =>
+        setShowPayment(false)
+      }
+      onSuccess={
+        handlePaymentSuccess
+      }
+    />
+  )
+}
     </section>
   );
 }
