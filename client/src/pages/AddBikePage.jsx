@@ -1,80 +1,75 @@
 import { useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { createBike } from "../services/sellerBikeService";
-import { useNavigate }
-from "react-router-dom";
-
+import { uploadImage } from "../services/uploadService";
+import { useNavigate } from "react-router-dom";
 
 function AddBikePage() {
+  const [formData, setFormData] = useState({
+    title: "",
+    brand: "",
+    model: "",
+    year: "",
+    price: "",
+    rentPerDay: "",
+    category: "",
+    description: "",
+    image: "",
+  });
 
-  const [formData, setFormData] =
-    useState({
-      title: "",
-      brand: "",
-      model: "",
-      year: "",
-      price: "",
-      rentPerDay: "",
-      category: "",
-      description: "",
-      image: "",
-    });
+  const navigate = useNavigate();
+  const [uploading, setUploading] = useState(false);
 
-    const navigate = useNavigate();
-
-const { token } =
-useContext(AuthContext);
+  const { token } = useContext(AuthContext);
 
   const handleChange = (e) => {
-
     setFormData({
       ...formData,
-      [e.target.name]:
-      e.target.value,
+      [e.target.name]: e.target.value,
     });
   };
 
   const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  e.preventDefault();
+    try {
+      await createBike(formData, token);
 
-  try {
+      alert("Bike Added Successfully");
 
-    await createBike(
-      formData,
-      token
-    );
+      navigate("/seller/my-bikes");
+    } catch (error) {
+      alert(error.response?.data?.message);
+    }
+  };
 
-    alert(
-      "Bike Added Successfully"
-    );
+  const handleImageUpload = async (e) => {
+    const file = e.target.files[0];
 
-    navigate(
-      "/seller/my-bikes"
-    );
+    if (!file) return;
 
-  } catch (error) {
+    try {
+      setUploading(true);
 
-    alert(
-      error.response?.data?.message
-    );
-  }
-};
+      const data = await uploadImage(file);
+
+      setFormData({
+        ...formData,
+        image: data.imageUrl,
+      });
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setUploading(false);
+    }
+  };
 
   return (
     <section className="min-h-screen bg-gray-100 py-16">
-
       <div className="max-w-3xl mx-auto bg-white p-10 rounded-3xl shadow-xl">
+        <h1 className="text-4xl font-bold mb-8">Add Bike</h1>
 
-        <h1 className="text-4xl font-bold mb-8">
-          Add Bike
-        </h1>
-
-        <form
-          onSubmit={handleSubmit}
-          className="space-y-4"
-        >
-
+        <form onSubmit={handleSubmit} className="space-y-4">
           <input
             name="title"
             placeholder="Title"
@@ -118,11 +113,19 @@ useContext(AuthContext);
           />
 
           <input
-            name="image"
-            placeholder="Image URL"
-            onChange={handleChange}
+            type="file"
+            accept="image/*"
+            onChange={handleImageUpload}
             className="w-full border p-4 rounded-lg"
           />
+          {uploading && <p>Uploading...</p>}
+          {formData.image && (
+            <img
+              src={formData.image}
+              alt="preview"
+              className="h-52 rounded-xl"
+            />
+          )}
 
           <textarea
             name="description"
@@ -131,14 +134,10 @@ useContext(AuthContext);
             className="w-full border p-4 rounded-lg"
           />
 
-          <button
-            className="bg-yellow-400 px-8 py-4 rounded-xl font-bold"
-          >
+          <button className="bg-yellow-400 px-8 py-4 rounded-xl font-bold">
             Add Bike
           </button>
-
         </form>
-
       </div>
     </section>
   );

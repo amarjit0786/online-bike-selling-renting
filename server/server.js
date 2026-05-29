@@ -7,6 +7,7 @@ const connectDB = require("./config/db");
 const authRoutes = require("./routes/authRoutes.js");
 const bikeRoutes = require("./routes/bikeRoutes");
 const bookingRoutes = require("./routes/bookingRoutes");
+const uploadRouts = require("./routes/uploadRoutes.js");
 
 dotenv.config();
 connectDB();
@@ -25,6 +26,7 @@ app.use(cookieParser());
 app.use("/api/auth",authRoutes);
 app.use("/api/bikes", bikeRoutes);
 app.use("/api/bookings", bookingRoutes);
+app.use("/api/upload",uploadRouts)
 
 //test route
 
