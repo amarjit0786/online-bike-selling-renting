@@ -20,6 +20,10 @@ import MySellerBikes from "./pages/MySellerBikes";
 import SellerRoute from "./routes/SellerRoute";
 import EditBikePage from "./pages/EditBikePage";
 
+import AdminDashboard from "./pages/AdminDashboard";
+
+import AdminRoute from "./routes/AdminRoute";
+
 function Home() {
   return (
     <>
@@ -94,6 +98,16 @@ function App() {
               <SellerRoute>
                 <EditBikePage />{" "}
               </SellerRoute>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin"
+          element={
+            <ProtectedRoute>
+              <AdminRoute>
+                <AdminDashboard />
+              </AdminRoute>
             </ProtectedRoute>
           }
         />

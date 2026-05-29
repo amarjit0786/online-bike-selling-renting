@@ -27,16 +27,14 @@ function Navbar() {
 
           <Link to="/bikes">Bikes</Link>
 
-            {(user?.role === "seller" ||
-  user?.role === "admin") && (
-  <Link to="/seller">
-    Seller Panel
-  </Link>
-)}
+          {(user?.role === "seller" || user?.role === "admin") && (
+            <Link to="/seller">Seller Panel</Link>
+          )}
+          {user?.role === "admin" && <Link to="/admin">Admin Panel</Link>}
           {user ? (
             <>
               <Link to="/dashboard">Dashboard</Link>
-              
+
               <span className="text-yellow-400">👋 {user.name}</span>
 
               <button
