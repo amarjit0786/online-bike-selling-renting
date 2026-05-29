@@ -128,5 +128,27 @@ const deleteBike = async (req, res) => {
   }
 };
 
+// GET SELLER BIKES
+const getSellerBikes = async (req, res) => {
 
-module.exports = {addBike, getAllBikes, getSingleBike, updateBike, deleteBike};
+  try {
+
+    const bikes = await Bike.find({
+      seller: req.user.id
+    });
+
+    res.status(200).json({
+      success: true,
+      bikes
+    });
+
+  } catch (error) {
+
+    res.status(500).json({
+      message: error.message
+    });
+  }
+};
+
+
+module.exports = {addBike, getAllBikes, getSingleBike, updateBike, deleteBike,getSellerBikes};

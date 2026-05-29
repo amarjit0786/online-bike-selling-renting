@@ -30,6 +30,7 @@ function Navbar() {
           {user ? (
             <>
               <Link to="/dashboard">Dashboard</Link>
+              <Link to="/seller">Seller Panel</Link>
               <span className="text-yellow-400">👋 {user.name}</span>
 
               <button
