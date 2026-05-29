@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { createBike } from "../services/sellerBikeService";
 import { uploadImage } from "../services/uploadService";
@@ -111,7 +111,12 @@ function AddBikePage() {
             onChange={handleChange}
             className="w-full border p-4 rounded-lg"
           />
-
+          <input
+            name="category"
+            placeholder="Category"
+            onChange={handleChange}
+            className="w-full border p-4 rounded-lg"
+          />
           <input
             type="file"
             accept="image/*"

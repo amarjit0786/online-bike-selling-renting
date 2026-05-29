@@ -68,11 +68,18 @@ const loginUser = async (req,res)=>{
       }
     );
 
+    const userResponse = {
+  _id: user._id,
+  name: user.name,
+  email: user.email,
+  role: user.role,
+};
+
         res.status(200).json({
             success:true,
             message:"Login successful",
             token,
-            user,
+            user:userResponse,
         });
 
     } catch (error) {

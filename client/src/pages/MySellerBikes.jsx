@@ -3,6 +3,7 @@ import { useContext, useEffect, useState } from "react";
 import { getMyBikes, deleteBike } from "../services/sellerBikeService";
 
 import { AuthContext } from "../context/AuthContext";
+import { Link } from "react-router-dom";
 
 function MySellerBikes() {
   const { token } = useContext(AuthContext);
@@ -56,9 +57,12 @@ function MySellerBikes() {
                 <p>₹{bike.price}</p>
 
                 <div className="flex gap-3 mt-5">
-                  <button className="bg-blue-500 text-white px-4 py-2 rounded-lg">
+                  <Link
+                    to={`/seller/edit-bike/${bike._id}`}
+                    className="bg-blue-500 text-white px-4 py-2 rounded-lg"
+                  >
                     Edit
-                  </button>
+                  </Link>
 
                   <button
                     onClick={() => handleDelete(bike._id)}

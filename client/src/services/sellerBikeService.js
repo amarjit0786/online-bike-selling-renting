@@ -24,6 +24,14 @@ export const createBike = async (
   return response.data;
 };
 
+// GET SINGLE BIKE
+
+export const getBikeById = async (id) => {
+
+  const response = await API.get(`/${id}`);
+
+  return response.data;
+}; 
 
 // GET MY BIKES
 export const getMyBikes = async (

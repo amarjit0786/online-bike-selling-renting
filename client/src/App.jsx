@@ -17,6 +17,8 @@ import ProtectedRoute from "./routes/ProtectedRoute";
 import SellerDashboard from "./pages/SellerDashboard";
 import AddBikePage from "./pages/AddBikePage";
 import MySellerBikes from "./pages/MySellerBikes";
+import SellerRoute from "./routes/SellerRoute";
+import EditBikePage from "./pages/EditBikePage";
 
 function Home() {
   return (
@@ -59,7 +61,9 @@ function App() {
           path="/seller"
           element={
             <ProtectedRoute>
-              <SellerDashboard />{" "}
+              <SellerRoute>
+                <SellerDashboard />{" "}
+              </SellerRoute>
             </ProtectedRoute>
           }
         />
@@ -67,7 +71,9 @@ function App() {
           path="/seller/add-bike"
           element={
             <ProtectedRoute>
-              <AddBikePage />{" "}
+              <SellerRoute>
+                <AddBikePage />{" "}
+              </SellerRoute>
             </ProtectedRoute>
           }
         />
@@ -75,7 +81,19 @@ function App() {
           path="/seller/my-bikes"
           element={
             <ProtectedRoute>
-              <MySellerBikes />{" "}
+              <SellerRoute>
+                <MySellerBikes />{" "}
+              </SellerRoute>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/seller/edit-bike/:id"
+          element={
+            <ProtectedRoute>
+              <SellerRoute>
+                <EditBikePage />{" "}
+              </SellerRoute>
             </ProtectedRoute>
           }
         />

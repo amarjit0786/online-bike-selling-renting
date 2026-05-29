@@ -2,15 +2,17 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const dotenv = require("dotenv");
+dotenv.config();
+
 const cookieParser =require("cookie-parser");
 const connectDB = require("./config/db");
 const authRoutes = require("./routes/authRoutes.js");
 const bikeRoutes = require("./routes/bikeRoutes");
 const bookingRoutes = require("./routes/bookingRoutes");
-const uploadRouts = require("./routes/uploadRoutes.js");
 
-dotenv.config();
 connectDB();
+
+const uploadRouts = require("./routes/uploadRoutes.js");
 
 const app = express();
 
