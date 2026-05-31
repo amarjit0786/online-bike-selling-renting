@@ -10,6 +10,7 @@ const authRoutes = require("./routes/authRoutes.js");
 const bikeRoutes = require("./routes/bikeRoutes");
 const bookingRoutes = require("./routes/bookingRoutes");
 const sellerRequestRoutes = require("./routes/sellerRequestRoutes");
+const adminRoutes = require("./routes/adminRoutes.js");
 
 connectDB();
 
@@ -33,6 +34,7 @@ app.use("/api/bikes", bikeRoutes);
 app.use("/api/bookings", bookingRoutes);
 app.use("/api/upload", uploadRouts);
 app.use("/api/seller-requests", sellerRequestRoutes);
+app.use("/api/admin", adminRoutes)
 
 //test route
 

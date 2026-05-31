@@ -1,0 +1,75 @@
+const User = require("../models/User");
+const Bike = require("../models/Bike");
+const Booking = require("../models/Booking");
+
+// GET ALL USERS
+const getAllUsers = async (req, res) => {
+  try {
+    const users = await User.find().select("-password");
+
+    res.status(200).json({
+      success: true,
+      users,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
+// DELETE USER
+const deleteUser = async (req, res) => {
+  try {
+    await User.findByIdAndDelete(req.params.id);
+
+    res.status(200).json({
+      success: true,
+      message: "User deleted",
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
+// get all bikes
+
+const getAllBikes = async (req, res) => {
+  try {
+    const bikes = await Bike.find().populate("seller", "name email");
+
+    res.status(200).json({
+      success: true,
+      bikes,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
+// DELETE ANY BIKE
+const deleteBike = async (req, res) => {
+  try {
+    await Bike.findByIdAndDelete(req.params.id);
+
+    res.status(200).json({
+      success: true,
+      message: "Bike deleted",
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
+module.exports = {
+  getAllUsers,
+  deleteUser,
+  getAllBikes,
+  deleteBike,
+};

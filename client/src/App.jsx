@@ -23,6 +23,9 @@ import EditBikePage from "./pages/EditBikePage";
 import AdminDashboard from "./pages/AdminDashboard";
 
 import AdminRoute from "./routes/AdminRoute";
+import AdminUsersPage from "./pages/AdminUsersPage";
+
+import AdminBikesPage from "./pages/AdminBikesPage";
 
 function Home() {
   return (
@@ -111,7 +114,28 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route
+          path="/admin/users"
+          element={
+            <ProtectedRoute>
+              <AdminRoute>
+                <AdminUsersPage />{" "}
+              </AdminRoute>{" "}
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/bikes"
+          element={
+            <ProtectedRoute>
+              <AdminRoute>
+                <AdminBikesPage />
+              </AdminRoute>
+            </ProtectedRoute>
+          }
+        />
       </Routes>
+
       <Footer />
     </>
   );
