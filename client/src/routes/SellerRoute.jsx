@@ -3,13 +3,18 @@ import { Navigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 
 function SellerRoute({ children }) {
-  const { user } = useContext(AuthContext);
+  const { user, loading } = useContext(AuthContext);
 
-  if (
-    user?.role !== "seller" &&
-    user?.role !== "admin"
-  ) {
-    return <Navigate to="/" />;
+  if (loading) {
+    return (
+      <div className="min-h-screen flex justify-center items-center">
+        <h1 className="text-3xl font-bold">Loading... ⏳</h1>
+      </div>
+    );
+  }
+
+  if (user?.role !== "seller" && user?.role !== "admin") {
+    return <Navigate to="/" replace />;
   }
 
   return children;

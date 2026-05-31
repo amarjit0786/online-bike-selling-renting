@@ -1,11 +1,78 @@
 const Bike = require("../models/Bike");
 
-// Add bike
-
+// ADD BIKE
 const addBike = async (req, res) => {
   try {
+    const {
+      title,
+      brand,
+      model,
+      year,
+      price,
+      rentPerDay,
+      category,
+      description,
+      image,
+    } = req.body;
+
+    const currentYear = new Date().getFullYear();
+
+    if (
+      !title ||
+      !brand ||
+      !model ||
+      !year ||
+      !price ||
+      !rentPerDay ||
+      !category ||
+      !description ||
+      !image
+    ) {
+      return res.status(400).json({
+        message: "All fields are required",
+      });
+    }
+
+    if (title.trim().length < 3) {
+      return res.status(400).json({
+        message: "Title must be at least 3 characters",
+      });
+    }
+
+    if (Number(year) < 2000 || Number(year) > currentYear + 1) {
+      return res.status(400).json({
+        message: `Year must be between 2000 and ${currentYear + 1}`,
+      });
+    }
+
+    if (Number(price) <= 0) {
+      return res.status(400).json({
+        message: "Price must be greater than 0",
+      });
+    }
+
+    if (Number(rentPerDay) <= 0) {
+      return res.status(400).json({
+        message: "Rent per day must be greater than 0",
+      });
+    }
+
+    if (description.trim().length < 20) {
+      return res.status(400).json({
+        message: "Description must be at least 20 characters",
+      });
+    }
+
     const bike = await Bike.create({
-      ...req.body,
+      title: title.trim(),
+      brand: brand.trim(),
+      model: model.trim(),
+      year,
+      price,
+      rentPerDay,
+      category: category.trim(),
+      description: description.trim(),
+      image,
       seller: req.user.id,
     });
 
@@ -21,8 +88,7 @@ const addBike = async (req, res) => {
   }
 };
 
-//get all bikes
-
+// GET ALL BIKES
 const getAllBikes = async (req, res) => {
   try {
     const bikes = await Bike.find().populate("seller", "name email");
@@ -32,12 +98,13 @@ const getAllBikes = async (req, res) => {
       bikes,
     });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({
+      message: error.message,
+    });
   }
 };
 
-// get single bike
-
+// GET SINGLE BIKE
 const getSingleBike = async (req, res) => {
   try {
     const bike = await Bike.findById(req.params.id).populate(
@@ -62,8 +129,7 @@ const getSingleBike = async (req, res) => {
   }
 };
 
-// update bike
-
+// UPDATE BIKE
 const updateBike = async (req, res) => {
   try {
     const bike = await Bike.findById(req.params.id);
@@ -74,10 +140,43 @@ const updateBike = async (req, res) => {
       });
     }
 
-    // Check seller ownership
     if (bike.seller.toString() !== req.user.id) {
       return res.status(403).json({
         message: "Unauthorized",
+      });
+    }
+
+    const { title, price, rentPerDay, year, description } = req.body;
+
+    const currentYear = new Date().getFullYear();
+
+    if (title && title.trim().length < 3) {
+      return res.status(400).json({
+        message: "Title must be at least 3 characters",
+      });
+    }
+
+    if (year && (Number(year) < 2000 || Number(year) > currentYear + 1)) {
+      return res.status(400).json({
+        message: `Year must be between 2000 and ${currentYear + 1}`,
+      });
+    }
+
+    if (price && Number(price) <= 0) {
+      return res.status(400).json({
+        message: "Price must be greater than 0",
+      });
+    }
+
+    if (rentPerDay && Number(rentPerDay) <= 0) {
+      return res.status(400).json({
+        message: "Rent per day must be greater than 0",
+      });
+    }
+
+    if (description && description.trim().length < 20) {
+      return res.status(400).json({
+        message: "Description must be at least 20 characters",
       });
     }
 
@@ -88,7 +187,7 @@ const updateBike = async (req, res) => {
     res.status(200).json({
       success: true,
       message: "Bike updated successfully",
-      updatedBike,
+      bike: updatedBike,
     });
   } catch (error) {
     res.status(500).json({
@@ -108,7 +207,6 @@ const deleteBike = async (req, res) => {
       });
     }
 
-    // Check seller ownership
     if (bike.seller.toString() !== req.user.id) {
       return res.status(403).json({
         message: "Unauthorized",
@@ -130,25 +228,27 @@ const deleteBike = async (req, res) => {
 
 // GET SELLER BIKES
 const getSellerBikes = async (req, res) => {
-
   try {
-
     const bikes = await Bike.find({
-      seller: req.user.id
+      seller: req.user.id,
     });
 
     res.status(200).json({
       success: true,
-      bikes
+      bikes,
     });
-
   } catch (error) {
-
     res.status(500).json({
-      message: error.message
+      message: error.message,
     });
   }
 };
 
-
-module.exports = {addBike, getAllBikes, getSingleBike, updateBike, deleteBike,getSellerBikes};
+module.exports = {
+  addBike,
+  getAllBikes,
+  getSingleBike,
+  updateBike,
+  deleteBike,
+  getSellerBikes,
+};

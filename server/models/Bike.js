@@ -1,49 +1,66 @@
 const mongoose = require("mongoose");
 
+const currentYear = new Date().getFullYear();
+
 const bikeSchema = new mongoose.Schema(
   {
     title: {
       type: String,
-      required: true,
+      required: [true, "Title is required"],
+      trim: true,
+      minlength: 3,
+      maxlength: 100,
     },
+
     brand: {
       type: String,
-      required: true,
+      required: [true, "Brand is required"],
+      trim: true,
     },
+
     model: {
       type: String,
-      required: true,
+      required: [true, "Model is required"],
+      trim: true,
     },
 
     year: {
       type: Number,
-      required: true,
+      required: [true, "Year is required"],
+      min: 2000,
+      max: currentYear + 1,
     },
 
     price: {
       type: Number,
-      required: true,
+      required: [true, "Price is required"],
+      min: 1,
     },
 
     rentPerDay: {
       type: Number,
-      required: true,
+      required: [true, "Rent per day is required"],
+      min: 1,
     },
 
     category: {
       type: String,
       enum: ["Sports", "Cruiser", "Electric", "Scooter"],
-      required: true,
+      required: [true, "Category is required"],
     },
 
     description: {
       type: String,
-      required: true,
+      required: [true, "Description is required"],
+      trim: true,
+      minlength: 20,
+      maxlength: 2000,
     },
 
     image: {
       type: String,
-      required: true,
+      required: [true, "Image is required"],
+      trim: true,
     },
 
     available: {
@@ -52,8 +69,9 @@ const bikeSchema = new mongoose.Schema(
     },
 
     seller: {
-      type:mongoose.Schema.Types.ObjectId,
-      ref:"User",
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
     },
   },
   {
@@ -61,5 +79,4 @@ const bikeSchema = new mongoose.Schema(
   },
 );
 
-
-module.exports= mongoose.model("Bike",bikeSchema);
+module.exports = mongoose.model("Bike", bikeSchema);
