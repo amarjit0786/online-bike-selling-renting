@@ -85,10 +85,50 @@ const getAllBookings = async (req, res) => {
   }
 };
 
+// DASHBOARD STATS
+
+const getDashboardStats = async (req, res) => {
+  try {
+    const totalUsers = await User.countDocuments();
+
+    const totalSellers = await User.countDocuments({
+      role: "seller",
+    });
+
+    const totalBikes = await Bike.countDocuments();
+
+    const totalBookings = await Booking.countDocuments();
+
+    const bookings = await Booking.find();
+
+    const totalRevenue = bookings.reduce(
+      (sum, booking) => sum + (booking.totalPrice || 0),
+      0,
+    );
+
+    res.status(200).json({
+      success: true,
+
+      stats: {
+        totalUsers,
+        totalSellers,
+        totalBikes,
+        totalBookings,
+        totalRevenue,
+      },
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
 module.exports = {
   getAllUsers,
   deleteUser,
   getAllBikes,
   deleteBike,
   getAllBookings,
+  getDashboardStats,
 };

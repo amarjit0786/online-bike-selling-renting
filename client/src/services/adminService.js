@@ -57,3 +57,13 @@ export const getAllBookings = async (token) => {
 
   return response.data;
 };
+
+export const getDashboardStats = async (token) => {
+  const response = await API.get("/stats", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  return response.data;
+};
