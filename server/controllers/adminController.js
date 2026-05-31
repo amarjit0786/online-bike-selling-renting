@@ -67,9 +67,28 @@ const deleteBike = async (req, res) => {
   }
 };
 
+// GET ALL BOOKINGS
+const getAllBookings = async (req, res) => {
+  try {
+    const bookings = await Booking.find()
+      .populate("user", "name email")
+      .populate("bike", "title image");
+
+    res.status(200).json({
+      success: true,
+      bookings,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
 module.exports = {
   getAllUsers,
   deleteUser,
   getAllBikes,
   deleteBike,
+  getAllBookings,
 };

@@ -49,7 +49,7 @@ function AdminDashboard() {
             🏍️ Bikes
           </Link>
 
-          <Link to="/admin/bookings" className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition text-xl font-semibold flex items-center gap-2">
+          <Link  to="/admin/bookings" className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition text-xl font-semibold flex items-center gap-2">
             📋 Bookings
           </Link>
         </div>

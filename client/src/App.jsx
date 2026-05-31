@@ -26,6 +26,7 @@ import AdminRoute from "./routes/AdminRoute";
 import AdminUsersPage from "./pages/AdminUsersPage";
 
 import AdminBikesPage from "./pages/AdminBikesPage";
+import AdminBookingsPage from "./pages/AdminBookingsPage";
 
 function Home() {
   return (
@@ -130,6 +131,17 @@ function App() {
             <ProtectedRoute>
               <AdminRoute>
                 <AdminBikesPage />
+              </AdminRoute>
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/admin/bookings"
+          element={
+            <ProtectedRoute>
+              <AdminRoute>
+                <AdminBookingsPage />
               </AdminRoute>
             </ProtectedRoute>
           }

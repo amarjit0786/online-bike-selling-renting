@@ -45,3 +45,15 @@ export const deleteBike = async (id, token) => {
 
   return response.data;
 };
+
+// GET ALL BOOKINGS
+
+export const getAllBookings = async (token) => {
+  const response = await API.get("/bookings", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  return response.data;
+};
