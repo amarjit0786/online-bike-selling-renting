@@ -2,7 +2,7 @@ import { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { getSingleBike } from "../services/bikeService";
 import { AuthContext } from "../context/AuthContext";
-import { createBooking } from "../services/bookingService";
+import { createBooking, getBikeBookings } from "../services/bookingService";
 import FakePaymentModal from "../components/FakePaymentModal";
 
 function BikeDetailsPage() {
@@ -24,6 +24,10 @@ function BikeDetailsPage() {
 
   const [bookingLoading, setBookingLoading] = useState(false);
 
+  const [bookingSuccess, setBookingSuccess] = useState(false);
+
+  const [bookedDates, setBookedDates] = useState([]);
+
   useEffect(() => {
     const fetchBike = async () => {
       try {
@@ -37,7 +41,18 @@ function BikeDetailsPage() {
       }
     };
 
+    const fetchBookings = async () => {
+      try {
+        const data = await getBikeBookings(id);
+
+        setBookedDates(data.bookings);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
     fetchBike();
+    fetchBookings();
   }, [id]);
 
   const totalDays =
@@ -81,9 +96,38 @@ function BikeDetailsPage() {
     return true;
   };
 
+  const isDateRangeAvailable = () => {
+    if (!startDate || !endDate) return true;
+
+    const start = new Date(startDate);
+
+    const end = new Date(endDate);
+
+    for (let booking of bookedDates) {
+      const bookedStart = new Date(booking.startDate);
+
+      const bookedEnd = new Date(booking.endDate);
+
+      if (start <= bookedEnd && end >= bookedStart) {
+        setBookingMessage("❌ This bike is already booked for selected dates");
+
+        return false;
+      }
+    }
+
+    return true;
+  };
+
   const handlePaymentSuccess = async () => {
+    setBookingMessage("");
+
     if (!validateBooking()) return;
 
+    if (!isDateRangeAvailable()) {
+      setShowPayment(false);
+
+      return;
+    }
     try {
       setBookingLoading(true);
 
@@ -96,6 +140,8 @@ function BikeDetailsPage() {
         token,
       );
 
+      setBookingSuccess(true);
+
       setBookingMessage("🎉 Payment Successful & Bike Booked!");
 
       setStartDate("");
@@ -103,7 +149,15 @@ function BikeDetailsPage() {
 
       setShowPayment(false);
     } catch (error) {
-      setBookingMessage(error.response?.data?.message || "Booking failed");
+      const errorMessage = error.response?.data?.message || "Booking failed";
+
+      setBookingSuccess(false);
+
+      setBookingMessage(errorMessage);
+
+      setShowPayment(false);
+
+      alert(errorMessage);
     } finally {
       setBookingLoading(false);
     }
@@ -173,13 +227,32 @@ function BikeDetailsPage() {
               <p>📧 {bike.seller?.email}</p>
             </div>
 
+            <div className="mt-6 bg-red-50 p-4 rounded-xl">
+              <h3 className="font-bold text-red-600 mb-3">Unavailable Dates</h3>
+
+              {bookedDates.length === 0 ? (
+                <p>No active bookings</p>
+              ) : (
+                bookedDates.map((booking) => (
+                  <p key={booking._id}>
+                    ❌ {new Date(booking.startDate).toLocaleDateString()}
+                    {" - "}
+                    {new Date(booking.endDate).toLocaleDateString()}
+                  </p>
+                ))
+              )}
+            </div>
+
             {/* DATE INPUTS */}
             <div className="mt-8 flex gap-4">
               <input
                 type="date"
                 value={startDate}
                 min={new Date().toISOString().split("T")[0]}
-                onChange={(e) => setStartDate(e.target.value)}
+                onChange={(e) => {
+                  setStartDate(e.target.value);
+                  setBookingMessage("");
+                }}
                 className="border p-3 rounded-lg"
               />
 
@@ -187,7 +260,10 @@ function BikeDetailsPage() {
                 type="date"
                 value={endDate}
                 min={startDate}
-                onChange={(e) => setEndDate(e.target.value)}
+                onChange={(e) => {
+                  setEndDate(e.target.value);
+                  setBookingMessage("");
+                }}
                 className="border p-3 rounded-lg"
               />
             </div>
@@ -212,7 +288,15 @@ function BikeDetailsPage() {
               <button
                 disabled={bookingLoading}
                 onClick={() => {
-                  if (!validateBooking()) return;
+                  setBookingMessage("");
+
+                  if (!validateBooking()) {
+                    return;
+                  }
+
+                  if (!isDateRangeAvailable()) {
+                    return;
+                  }
 
                   setShowPayment(true);
                 }}
@@ -227,7 +311,11 @@ function BikeDetailsPage() {
             </div>
 
             {bookingMessage && (
-              <p className="mt-6 font-semibold text-green-600">
+              <p
+                className={`mt-6 font-semibold ${
+                  bookingSuccess ? "text-green-600" : "text-red-600"
+                }`}
+              >
                 {bookingMessage}
               </p>
             )}

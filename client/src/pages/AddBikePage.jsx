@@ -183,14 +183,22 @@ function AddBikePage() {
             className="w-full border p-4 rounded-lg"
           />
 
-          <input
-            type="text"
+          <select
             name="category"
             value={formData.category}
-            placeholder="Category"
             onChange={handleChange}
             className="w-full border p-4 rounded-lg"
-          />
+          >
+            <option value="">Select Category</option>
+
+            <option value="Sports">Sports</option>
+
+            <option value="Cruiser">Cruiser</option>
+
+            <option value="Electric">Electric</option>
+
+            <option value="Scooter">Scooter</option>
+          </select>
 
           <input
             type="file"

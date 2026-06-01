@@ -26,23 +26,6 @@ const createBooking = async (req, res) => {
     const end = new Date(endDate);
 
     const today = new Date();
-
-    today.setHours(0, 0, 0, 0);
-
-    // Past Date Check
-    if (start < today) {
-      return res.status(400).json({
-        message: "Start date cannot be in the past",
-      });
-    }
-
-    // End Date Check
-    if (end < start) {
-      return res.status(400).json({
-        message: "End date must be after start date",
-      });
-    }
-
     // Overlapping Booking Check
     const existingBooking = await Booking.findOne({
       bike: bikeId,
@@ -65,6 +48,22 @@ const createBooking = async (req, res) => {
     if (existingBooking) {
       return res.status(400).json({
         message: "Bike already booked for selected dates",
+      });
+    }
+
+    today.setHours(0, 0, 0, 0);
+
+    // Past Date Check
+    if (start < today) {
+      return res.status(400).json({
+        message: "Start date cannot be in the past",
+      });
+    }
+
+    // End Date Check
+    if (end < start) {
+      return res.status(400).json({
+        message: "End date must be after start date",
       });
     }
 
@@ -114,7 +113,28 @@ const getUserBookings = async (req, res) => {
   }
 };
 
+// GET BIKE BOOKINGS
+const getBikeBookings = async (req, res) => {
+  try {
+    const bookings = await Booking.find({
+      bike: req.params.bikeId,
+      status: {
+        $ne: "cancelled",
+      },
+    }).select("startDate endDate");
+
+    res.status(200).json({
+      success: true,
+      bookings,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
 module.exports = {
   createBooking,
   getUserBookings,
+  getBikeBookings,
 };
