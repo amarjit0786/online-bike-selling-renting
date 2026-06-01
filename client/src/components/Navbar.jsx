@@ -1,7 +1,7 @@
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
-import logoImg from "../assets/logo.png";
+import logoImg from "../assets/logoB1.png";
 
 function Navbar() {
   const { user, logout, loading } =
@@ -33,11 +33,11 @@ function Navbar() {
           <img
             src={logoImg}
             alt="RideHub Logo"
-            className="h-10 w-auto object-contain"
+            className="h-15 w-auto object-contain"
           />
 
           <span className="text-2xl font-bold text-yellow-400">
-            RideHub
+            CityGlide
           </span>
         </Link>
 

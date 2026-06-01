@@ -124,6 +124,27 @@ const getDashboardStats = async (req, res) => {
   }
 };
 
+const getPublicStats = async (req, res) => {
+  try {
+    const totalUsers = await User.countDocuments();
+
+    const totalBikes = await Bike.countDocuments();
+
+    const totalBookings = await Booking.countDocuments();
+
+    res.status(200).json({
+      success: true,
+      totalUsers,
+      totalBikes,
+      totalBookings,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
 module.exports = {
   getAllUsers,
   deleteUser,
@@ -131,4 +152,5 @@ module.exports = {
   deleteBike,
   getAllBookings,
   getDashboardStats,
+  getPublicStats,
 };
