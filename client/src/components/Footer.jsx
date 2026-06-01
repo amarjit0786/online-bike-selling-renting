@@ -5,7 +5,7 @@ function Footer() {
       <div className="max-w-7xl mx-auto px-6 text-center">
 
         <h2 className="text-3xl font-bold text-yellow-400">
-          RideHub
+          CityGlide
         </h2>
 
         <p className="text-gray-400 mt-4">
@@ -13,7 +13,7 @@ function Footer() {
         </p>
 
         <p className="mt-6 text-gray-500 text-sm">
-          © 2026 RideHub. All rights reserved.
+          © 2026 CityGlide. All rights reserved.
         </p>
       </div>
     </footer>

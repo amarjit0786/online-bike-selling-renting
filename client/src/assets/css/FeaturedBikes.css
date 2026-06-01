@@ -1,0 +1,243 @@
+/* FeaturedBikes Styles */
+.featured-bikes-section {
+  padding: 6rem 0;
+  background: linear-gradient(to bottom, #ffffff, #f9fafb);
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.featured-container {
+  max-width: 80rem;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+/* Header Styles */
+.featured-header {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.featured-badge {
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: #2563eb;
+  text-transform: uppercase;
+  display: inline-block;
+}
+
+.featured-title {
+  font-size: 2.5rem;
+  font-weight: 900;
+  color: #111827;
+  margin-top: 0.5rem;
+  letter-spacing: -0.025em;
+}
+
+.featured-underline {
+  width: 5rem;
+  height: 0.25rem;
+  background-color: #2563eb;
+  margin: 1rem auto 0;
+  border-radius: 9999px;
+}
+
+/* Grid Layout */
+.featured-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+
+/* Card Wrapper with Hover Animation */
+.bike-card-wrapper {
+  transition: all 0.3s ease-out;
+}
+
+.bike-card-wrapper:hover {
+  transform: translateY(-0.5rem);
+}
+
+/* Bike Card Styles (assuming BikeCard structure) */
+.bike-card {
+  background: white;
+  border-radius: 1.5rem;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  border: 1px solid #f3f4f6;
+  transition: box-shadow 0.3s ease;
+}
+
+.bike-card:hover {
+  box-shadow: 0 20px 25px -12px rgba(0, 0, 0, 0.1);
+}
+
+.bike-card-image {
+  width: 100%;
+  height: 12rem;
+  object-fit: cover;
+}
+
+.bike-card-content {
+  padding: 1.25rem;
+}
+
+.bike-card-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 0.5rem;
+}
+
+.bike-card-price {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #2563eb;
+  margin-bottom: 1rem;
+}
+
+.bike-card-location {
+  font-size: 0.875rem;
+  color: #6b7280;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin-bottom: 1rem;
+}
+
+.bike-card-button {
+  display: inline-block;
+  width: 100%;
+  background-color: #111827;
+  color: white;
+  text-align: center;
+  padding: 0.625rem;
+  border-radius: 0.75rem;
+  font-weight: 500;
+  transition: background-color 0.2s;
+  text-decoration: none;
+}
+
+.bike-card-button:hover {
+  background-color: #374151;
+}
+
+/* Skeleton Loading Styles */
+.skeleton-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+
+.skeleton-card {
+  background: white;
+  border-radius: 1.5rem;
+  padding: 1.25rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  border: 1px solid #f3f4f6;
+}
+
+.skeleton-image {
+  background-color: #e5e7eb;
+  height: 12rem;
+  width: 100%;
+  border-radius: 1rem;
+  margin-bottom: 1rem;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.skeleton-title {
+  height: 1.5rem;
+  background-color: #e5e7eb;
+  border-radius: 0.375rem;
+  width: 75%;
+  margin-bottom: 0.75rem;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.skeleton-subtitle {
+  height: 1rem;
+  background-color: #e5e7eb;
+  border-radius: 0.375rem;
+  width: 50%;
+  margin-bottom: 1.5rem;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.skeleton-button {
+  height: 2.5rem;
+  background-color: #e5e7eb;
+  border-radius: 0.75rem;
+  width: 100%;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* Empty State Styles */
+.empty-state {
+  max-width: 28rem;
+  margin: 0 auto;
+  text-align: center;
+  background: white;
+  border: 1px solid #f3f4f6;
+  border-radius: 1.5rem;
+  padding: 2.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.empty-icon {
+  font-size: 3rem;
+  display: block;
+  margin-bottom: 1rem;
+}
+
+.empty-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 0.25rem;
+}
+
+.empty-message {
+  color: #6b7280;
+  font-size: 0.875rem;
+}
+
+/* Responsive Breakpoints */
+@media (min-width: 640px) {
+  .featured-container {
+    padding: 0 1.5rem;
+  }
+  
+  .featured-title {
+    font-size: 3rem;
+  }
+  
+  .featured-grid,
+  .skeleton-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .featured-container {
+    padding: 0 2rem;
+  }
+  
+  .featured-grid,
+  .skeleton-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  .featured-title {
+    font-size: 3.75rem;
+  }
+}

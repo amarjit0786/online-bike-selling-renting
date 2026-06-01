@@ -58,7 +58,7 @@ function Hero() {
             </Link>
 
             <Link
-              to="/register"
+              to="/seller/add-bike"
               className="border border-yellow-400 px-6 py-3 rounded-lg hover:bg-yellow-400 hover:text-black transition"
             >
               Start Selling
