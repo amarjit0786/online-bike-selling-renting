@@ -23,7 +23,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: ["http://localhost:5173", process.env.CLIENT_URL],
     credentials: true,
   }),
 );
@@ -34,7 +34,7 @@ app.use("/api/bikes", bikeRoutes);
 app.use("/api/bookings", bookingRoutes);
 app.use("/api/upload", uploadRouts);
 app.use("/api/seller-requests", sellerRequestRoutes);
-app.use("/api/admin", adminRoutes)
+app.use("/api/admin", adminRoutes);
 
 //test route
 
