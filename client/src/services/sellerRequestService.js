@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "http://localhost:5000/api/seller-requests",
+  baseURL: `${import.meta.env.VITE_API_URL}/seller-requests`,
 });
 
 // Create Seller Request
@@ -13,7 +13,7 @@ export const createSellerRequest = async (token) => {
       headers: {
         Authorization: `Bearer ${token}`,
       },
-    }
+    },
   );
 
   return response.data;
@@ -39,7 +39,7 @@ export const approveRequest = async (id, token) => {
       headers: {
         Authorization: `Bearer ${token}`,
       },
-    }
+    },
   );
 
   return response.data;
@@ -54,7 +54,7 @@ export const rejectRequest = async (id, token) => {
       headers: {
         Authorization: `Bearer ${token}`,
       },
-    }
+    },
   );
 
   return response.data;

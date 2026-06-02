@@ -1,20 +1,13 @@
 import axios from "axios";
 
-export const uploadImage =
-async (file) => {
+export const uploadImage = async (file) => {
+  const formData = new FormData();
 
-  const formData =
-  new FormData();
+  formData.append("image", file);
 
-  formData.append(
-    "image",
-    file
-  );
-
-  const response =
-  await axios.post(
-    "http://localhost:5000/api/upload",
-    formData
+  const response = await axios.post(
+    `${import.meta.env.VITE_API_URL}/upload`,
+    formData,
   );
 
   return response.data;

@@ -1,17 +1,16 @@
 import axios from "axios";
 
 const API = axios.create({
-    baseURL:"http://localhost:5000/api",
-})
+  baseURL: `${import.meta.env.VITE_API_URL}/bikes`,
+});
 
 // get all bikes
 
-export const getAllBikes = async ()=>{
-    const response = await API.get("/bikes");
+export const getAllBikes = async () => {
+  const response = await API.get("/bikes");
 
-    return response.data;
-}
-
+  return response.data;
+};
 
 // GET SINGLE BIKE
 export const getSingleBike = async (id) => {
