@@ -23,7 +23,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(
   cors({
-    origin: ["http://localhost:5173", process.env.CLIENT_URL],
+    origin: [
+      "http://localhost:5173",
+      "https://online-bike-selling-renting.vercel.app",
+      process.env.CLIENT_URL,
+    ],
     credentials: true,
   }),
 );
