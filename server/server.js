@@ -21,17 +21,12 @@ const app = express();
 //middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(
-  cors({
-    origin: [
-      "http://localhost:5173",
-      "https://online-bike-selling-renting.vercel.app",
-      "https://online-bike-selling-renting-git-main-amarjit0786s-projects.vercel.app",
-      process.env.CLIENT_URL,
-    ],
-    credentials: true,
-  })
-);
+app.use(cors());
+// temp debugging 
+app.use((req, res, next) => {
+  console.log("Origin:", req.headers.origin);
+  next();
+});
 
 app.use(cookieParser());
 
