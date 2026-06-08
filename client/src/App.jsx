@@ -27,12 +27,14 @@ import AdminUsersPage from "./pages/AdminUsersPage";
 
 import AdminBikesPage from "./pages/AdminBikesPage";
 import AdminBookingsPage from "./pages/AdminBookingsPage";
+import MeetTheCreator from "./components/MeetTheCreator";
 
 function Home() {
   return (
     <>
       <Hero />
       <FeaturedBikes />
+      <MeetTheCreator />
     </>
   );
 }
