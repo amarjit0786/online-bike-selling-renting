@@ -4,8 +4,11 @@ import { AuthContext } from "../context/AuthContext";
 
 import { Link } from "react-router-dom";
 import { createSellerRequest } from "../services/sellerRequestService";
+import usePageTitle from "../hooks/usePageTitle";
+
 
 function DashboardPage() {
+  usePageTitle("CityGlide | Dashboard");
   const { token, user } = useContext(AuthContext);
 
   const handleSellerRequest = async () => {

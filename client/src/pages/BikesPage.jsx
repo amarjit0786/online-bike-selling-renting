@@ -3,9 +3,12 @@ import { useEffect, useState } from "react";
 import BikeCard from "../components/BikeCard";
 
 import { getAllBikes } from "../services/bikeService";
+import usePageTitle from "../hooks/usePageTitle";
+
 
 function BikesPage() {
 
+  usePageTitle("CityGlide | Bikes");
   const [bikes, setBikes] = useState([]);
 
   const [loading, setLoading] = useState(true);

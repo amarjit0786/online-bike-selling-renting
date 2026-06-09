@@ -2,8 +2,12 @@ import { useContext, useState } from "react";
 import { loginUser } from "../services/authService";
 import { AuthContext } from "../context/AuthContext";
 import { useNavigate, Link } from "react-router-dom"; // Link import kiya naye footer ke liye
+import usePageTitle from "../hooks/usePageTitle";
+
+
 
 function LoginPage() {
+  usePageTitle("CityGlide | Login");
   const navigate = useNavigate();
   const { login } = useContext(AuthContext);
 

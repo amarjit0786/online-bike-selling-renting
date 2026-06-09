@@ -4,8 +4,11 @@ import { getSingleBike } from "../services/bikeService";
 import { AuthContext } from "../context/AuthContext";
 import { createBooking, getBikeBookings } from "../services/bookingService";
 import FakePaymentModal from "../components/FakePaymentModal";
+import usePageTitle from "../hooks/usePageTitle";
+
 
 function BikeDetailsPage() {
+  usePageTitle("CityGlide | Bike Details");
   const { id } = useParams();
   const { token } = useContext(AuthContext);
 

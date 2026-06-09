@@ -29,7 +29,11 @@ import AdminBikesPage from "./pages/AdminBikesPage";
 import AdminBookingsPage from "./pages/AdminBookingsPage";
 import MeetTheCreator from "./components/MeetTheCreator";
 
+import usePageTitle from "./hooks/usePageTitle";
+
 function Home() {
+  usePageTitle("CityGlide | Home");
+
   return (
     <>
       <Hero />

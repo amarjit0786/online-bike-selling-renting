@@ -1,6 +1,9 @@
 import { Link } from "react-router-dom";
+import usePageTitle from "../hooks/usePageTitle";
+
 
 function SellerDashboard() {
+  usePageTitle("CityGlide | Seller Dashboard");
   return (
     <section className="min-h-screen bg-gray-100 py-16">
 

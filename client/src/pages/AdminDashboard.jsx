@@ -10,8 +10,12 @@ import {
 import { getDashboardStats } from "../services/adminService";
 import AdminLayout from "../components/admin/AdminLayout";
 import StatCard from "../components/admin/StatCard";
+import usePageTitle from "../hooks/usePageTitle";
+
 
 function AdminDashboard() {
+
+  usePageTitle("CityGlide | Admin Dashboard");
   const { token } = useContext(AuthContext);
   const [requests, setRequests] = useState([]);
   const [stats, setStats] = useState(null);

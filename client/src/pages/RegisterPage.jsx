@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom"; // Link add kiya login page redirect ke liye
 import { registerUser } from "../services/authService";
+import usePageTitle from "../hooks/usePageTitle";
 
 function RegisterPage() {
   const navigate = useNavigate();
-
+ usePageTitle("CityGlide | Register");
+ 
   const [formData, setFormData] = useState({
     name: "",
     email: "",
