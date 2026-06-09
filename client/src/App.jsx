@@ -31,6 +31,8 @@ import MeetTheCreator from "./components/MeetTheCreator";
 
 import usePageTitle from "./hooks/usePageTitle";
 
+import NotFoundPage from "./pages/NotFoundPage";
+
 function Home() {
   usePageTitle("CityGlide | Home");
 
@@ -152,6 +154,7 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
 
       <Footer />
