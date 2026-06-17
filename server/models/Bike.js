@@ -73,6 +73,10 @@ const bikeSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
+    isSold: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     timestamps: true,

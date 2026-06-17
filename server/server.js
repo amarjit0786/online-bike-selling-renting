@@ -11,6 +11,7 @@ const bikeRoutes = require("./routes/bikeRoutes");
 const bookingRoutes = require("./routes/bookingRoutes");
 const sellerRequestRoutes = require("./routes/sellerRequestRoutes");
 const adminRoutes = require("./routes/adminRoutes.js");
+const orderRoutes = require("./routes/orderRoutes.js");
 
 connectDB();
 
@@ -36,6 +37,7 @@ app.use("/api/bookings", bookingRoutes);
 app.use("/api/upload", uploadRouts);
 app.use("/api/seller-requests", sellerRequestRoutes);
 app.use("/api/admin", adminRoutes);
+app.use("/api/orders",orderRoutes)
 
 //test route
 

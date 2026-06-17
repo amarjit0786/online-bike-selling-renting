@@ -1,0 +1,43 @@
+const Order = require("../models/Order");
+const Bike = require("../models/Bike");
+
+const buyBike = async (req, res) => {
+  try {
+    const bike = await Bike.findById(req.params.BikeId);
+
+    if (!bike) {
+      return res.status(404).json({
+        message: "Bike not Found",
+      });
+    }
+
+    if (bike.isSold) {
+      return res.status(400).json({
+        message: "Bike already sold",
+      });
+    }
+
+    const order = await Order.create({
+      buyer: req.user.id,
+      bike: bike._id,
+      seller: bike.seller,
+      price: bike.price,
+    });
+    bike.isSold = true;
+    bike.available = false;
+
+    await bike.save();
+
+    res.status(201).json({
+      success: true,
+      message: "Bike purchased successfully",
+      order,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
+module.exports = { buyBike };
