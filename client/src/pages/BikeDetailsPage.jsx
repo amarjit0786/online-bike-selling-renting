@@ -5,6 +5,7 @@ import { AuthContext } from "../context/AuthContext";
 import { createBooking, getBikeBookings } from "../services/bookingService";
 import FakePaymentModal from "../components/FakePaymentModal";
 import usePageTitle from "../hooks/usePageTitle";
+import { buyBike } from "../services/orderService";
 
 function BikeDetailsPage() {
   usePageTitle("CityGlide | Bike Details");
@@ -157,21 +158,28 @@ function BikeDetailsPage() {
   };
 
   // buy button handle
-const handleBuyBike = async () => {
-  if (!token) {
-    alert("Please login first");
-    return;
-  }
+  const handleBuyBike = async () => {
+    try {
+      const token = localStorage.getItem("token");
 
-  const confirmBuy = window.confirm(
-    `Purchase this bike for ₹${bike.price}?`
-  );
+      if (!token) {
+        alert("Please login first");
+        return;
+      }
 
-  if (!confirmBuy) return;
+      const confirmBuy = window.confirm(`Buy this bike for ₹${bike.price}?`);
 
-  console.log("Buying bike...");
-}; 
+      if (!confirmBuy) return;
 
+      const data = await buyBike(bike._id, token);
+
+      alert(data.message);
+
+      fetchBike();
+    } catch (error) {
+      alert(error.response?.data?.message || "Purchase failed");
+    }
+  };
 
   if (loading) {
     return (
@@ -353,11 +361,12 @@ const handleBuyBike = async () => {
               </button>
 
               <button
+                onClick={handleBuyBike}
                 disabled={bike.isSold}
-                className={`w-full py-4 rounded-xl font-bold transition ${
+                className={`w-full py-4 rounded-xl font-bold ${
                   bike.isSold
-                    ? "bg-red-500 text-white cursor-not-allowed"
-                    : "bg-gray-900 text-white hover:bg-gray-800 active:scale-95"
+                    ? "bg-red-500 cursor-not-allowed text-white"
+                    : "bg-gray-900 text-white hover:bg-gray-800"
                 }`}
               >
                 {bike.isSold ? "Sold Out" : "Buy Now"}
