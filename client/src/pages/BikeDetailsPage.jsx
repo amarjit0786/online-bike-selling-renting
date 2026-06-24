@@ -6,7 +6,6 @@ import { createBooking, getBikeBookings } from "../services/bookingService";
 import FakePaymentModal from "../components/FakePaymentModal";
 import usePageTitle from "../hooks/usePageTitle";
 
-
 function BikeDetailsPage() {
   usePageTitle("CityGlide | Bike Details");
   const { id } = useParams();
@@ -23,6 +22,7 @@ function BikeDetailsPage() {
   const [bookingLoading, setBookingLoading] = useState(false);
   const [bookingSuccess, setBookingSuccess] = useState(false);
   const [bookedDates, setBookedDates] = useState([]);
+  const [buyLoading, setBuyLoading] = useState(false);
 
   // 1. Fetch Bookings ko alag se wrap kiya taaki payment ke baad ise dubara call kiya ja sake
   const fetchBookings = useCallback(async () => {
@@ -54,7 +54,7 @@ function BikeDetailsPage() {
   const totalDays =
     startDate && endDate
       ? Math.ceil(
-          (new Date(endDate) - new Date(startDate)) / (1000 * 60 * 60 * 24)
+          (new Date(endDate) - new Date(startDate)) / (1000 * 60 * 60 * 24),
         ) + 1
       : 0;
 
@@ -133,7 +133,7 @@ function BikeDetailsPage() {
           startDate,
           endDate,
         },
-        token
+        token,
       );
 
       setBookingSuccess(true);
@@ -145,7 +145,6 @@ function BikeDetailsPage() {
 
       // 2. FIXED: New booked dates ko fetch karke UI par unavailable dates update kiye!
       await fetchBookings();
-
     } catch (error) {
       const errorMessage = error.response?.data?.message || "Booking failed";
       setBookingSuccess(false);
@@ -157,6 +156,23 @@ function BikeDetailsPage() {
     }
   };
 
+  // buy button handle
+const handleBuyBike = async () => {
+  if (!token) {
+    alert("Please login first");
+    return;
+  }
+
+  const confirmBuy = window.confirm(
+    `Purchase this bike for ₹${bike.price}?`
+  );
+
+  if (!confirmBuy) return;
+
+  console.log("Buying bike...");
+}; 
+
+
   if (loading) {
     return (
       <div className="text-center text-3xl mt-20 font-bold text-gray-700 animate-pulse">
@@ -167,7 +183,9 @@ function BikeDetailsPage() {
 
   if (error) {
     return (
-      <div className="text-center text-red-500 text-2xl mt-20 font-semibold">{error}</div>
+      <div className="text-center text-red-500 text-2xl mt-20 font-semibold">
+        {error}
+      </div>
     );
   }
 
@@ -175,7 +193,6 @@ function BikeDetailsPage() {
     <section className="min-h-screen bg-gray-50 py-16 px-4">
       <div className="max-w-6xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 bg-white rounded-3xl shadow-xl overflow-hidden border border-gray-100">
-          
           {/* IMAGE */}
           <div className="h-64 md:h-auto min-h-[400px]">
             <img
@@ -187,8 +204,12 @@ function BikeDetailsPage() {
 
           {/* DETAILS */}
           <div className="p-8 sm:p-12 flex flex-col justify-center">
-            <h1 className="text-4xl sm:text-5xl font-black text-gray-900">{bike.title}</h1>
-            <p className="text-blue-600 font-semibold text-lg mt-2 uppercase tracking-wider">{bike.brand}</p>
+            <h1 className="text-4xl sm:text-5xl font-black text-gray-900">
+              {bike.title}
+            </h1>
+            <p className="text-blue-600 font-semibold text-lg mt-2 uppercase tracking-wider">
+              {bike.brand}
+            </p>
 
             <p className="mt-6 text-gray-600 leading-relaxed text-sm sm:text-base">
               {bike.description}
@@ -196,28 +217,50 @@ function BikeDetailsPage() {
 
             <div className="mt-8 grid grid-cols-2 gap-4 border-t border-b border-gray-100 py-6">
               <div>
-                <p className="text-xs text-gray-400 uppercase tracking-wider">Selling Price</p>
-                <h2 className="text-xl sm:text-2xl font-bold text-gray-800">₹{bike.price}</h2>
+                <p className="text-xs text-gray-400 uppercase tracking-wider">
+                  Selling Price
+                </p>
+                <h2 className="text-xl sm:text-2xl font-bold text-gray-800">
+                  ₹{bike.price}
+                </h2>
               </div>
               <div>
-                <p className="text-xs text-gray-400 uppercase tracking-wider">Rent Per Day</p>
-                <h2 className="text-xl sm:text-2xl font-bold text-blue-600">₹{bike.rentPerDay}/day</h2>
+                <p className="text-xs text-gray-400 uppercase tracking-wider">
+                  Rent Per Day
+                </p>
+                <h2 className="text-xl sm:text-2xl font-bold text-blue-600">
+                  ₹{bike.rentPerDay}/day
+                </h2>
               </div>
               <div>
-                <p className="text-xs text-gray-400 uppercase tracking-wider">Model Year</p>
-                <h2 className="text-sm sm:text-base font-semibold text-gray-700">🗓️ {bike.year}</h2>
+                <p className="text-xs text-gray-400 uppercase tracking-wider">
+                  Model Year
+                </p>
+                <h2 className="text-sm sm:text-base font-semibold text-gray-700">
+                  🗓️ {bike.year}
+                </h2>
               </div>
               <div>
-                <p className="text-xs text-gray-400 uppercase tracking-wider">Category</p>
-                <h2 className="text-sm sm:text-base font-semibold text-gray-700">🏍️ {bike.category}</h2>
+                <p className="text-xs text-gray-400 uppercase tracking-wider">
+                  Category
+                </p>
+                <h2 className="text-sm sm:text-base font-semibold text-gray-700">
+                  🏍️ {bike.category}
+                </h2>
               </div>
             </div>
 
             {/* SELLER */}
             <div className="mt-8 p-5 bg-gray-50 rounded-2xl border border-gray-100">
-              <h2 className="text-lg font-bold text-gray-800 mb-3">Owner Details</h2>
-              <p className="text-gray-700 text-sm">👤 {bike.seller?.name || "Verified Seller"}</p>
-              <p className="text-gray-500 text-sm mt-1">📧 {bike.seller?.email}</p>
+              <h2 className="text-lg font-bold text-gray-800 mb-3">
+                Owner Details
+              </h2>
+              <p className="text-gray-700 text-sm">
+                👤 {bike.seller?.name || "Verified Seller"}
+              </p>
+              <p className="text-gray-500 text-sm mt-1">
+                📧 {bike.seller?.email}
+              </p>
             </div>
 
             {/* BLOCKED DATES UI LIST */}
@@ -226,12 +269,16 @@ function BikeDetailsPage() {
                 📅 Booked Slots (Unavailable)
               </h3>
               {bookedDates.length === 0 ? (
-                <p className="text-rose-600 text-xs sm:text-sm">Available all days! Ready to glide.</p>
+                <p className="text-rose-600 text-xs sm:text-sm">
+                  Available all days! Ready to glide.
+                </p>
               ) : (
                 <div className="max-h-24 overflow-y-auto space-y-1 text-xs sm:text-sm text-rose-700">
                   {bookedDates.map((booking) => (
                     <p key={booking._id} className="font-medium">
-                      🔒 {new Date(booking.startDate).toLocaleDateString("en-IN")} - {new Date(booking.endDate).toLocaleDateString("en-IN")}
+                      🔒{" "}
+                      {new Date(booking.startDate).toLocaleDateString("en-IN")}{" "}
+                      - {new Date(booking.endDate).toLocaleDateString("en-IN")}
                     </p>
                   ))}
                 </div>
@@ -241,7 +288,9 @@ function BikeDetailsPage() {
             {/* DATE INPUTS WRAPPER */}
             <div className="mt-8 grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs text-gray-400 uppercase tracking-wider mb-2 font-semibold">Start Date</label>
+                <label className="block text-xs text-gray-400 uppercase tracking-wider mb-2 font-semibold">
+                  Start Date
+                </label>
                 <input
                   type="date"
                   value={startDate}
@@ -255,7 +304,9 @@ function BikeDetailsPage() {
               </div>
 
               <div>
-                <label className="block text-xs text-gray-400 uppercase tracking-wider mb-2 font-semibold">End Date</label>
+                <label className="block text-xs text-gray-400 uppercase tracking-wider mb-2 font-semibold">
+                  End Date
+                </label>
                 <input
                   type="date"
                   value={endDate}
@@ -274,11 +325,15 @@ function BikeDetailsPage() {
               <div className="mt-6 bg-amber-50 border border-amber-100 p-4 rounded-xl flex justify-between items-center text-sm">
                 <div>
                   <p className="text-gray-600">Total Duration:</p>
-                  <strong className="text-gray-900 text-base">{totalDays} Days</strong>
+                  <strong className="text-gray-900 text-base">
+                    {totalDays} Days
+                  </strong>
                 </div>
                 <div className="text-right">
                   <p className="text-gray-600">Estimated Rent:</p>
-                  <strong className="text-amber-700 text-xl font-black">₹{totalPrice}</strong>
+                  <strong className="text-amber-700 text-xl font-black">
+                    ₹{totalPrice}
+                  </strong>
                 </div>
               </div>
             )}
@@ -297,20 +352,30 @@ function BikeDetailsPage() {
                 {bookingLoading ? "Processing..." : "Pay & Rent Bike"}
               </button>
 
-              <button className="w-full bg-gray-900 text-white py-4 rounded-xl font-bold hover:bg-gray-800 active:scale-95 transition">
-                Buy Now
+              <button
+                disabled={bike.isSold}
+                className={`w-full py-4 rounded-xl font-bold transition ${
+                  bike.isSold
+                    ? "bg-red-500 text-white cursor-not-allowed"
+                    : "bg-gray-900 text-white hover:bg-gray-800 active:scale-95"
+                }`}
+              >
+                {bike.isSold ? "Sold Out" : "Buy Now"}
               </button>
             </div>
 
             {bookingMessage && (
-              <p className={`mt-4 text-center text-sm font-semibold p-3 rounded-lg ${
-                bookingSuccess ? "bg-green-50 text-green-700 border border-green-100" : "bg-red-50 text-red-700 border border-red-100"
-              }`}>
+              <p
+                className={`mt-4 text-center text-sm font-semibold p-3 rounded-lg ${
+                  bookingSuccess
+                    ? "bg-green-50 text-green-700 border border-green-100"
+                    : "bg-red-50 text-red-700 border border-red-100"
+                }`}
+              >
                 {bookingMessage}
               </p>
             )}
           </div>
-
         </div>
       </div>
 
