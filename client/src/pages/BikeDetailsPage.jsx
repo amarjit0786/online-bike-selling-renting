@@ -35,21 +35,23 @@ function BikeDetailsPage() {
     }
   }, [id]);
 
+  const fetchBike = useCallback(async () => {
+    try {
+      const data = await getSingleBike(id);
+      setBike(data.bike);
+    } catch (error) {
+      setError("Failed to fetch bike details");
+    } finally {
+      setLoading(false);
+    }
+  }, [id]);
+
   useEffect(() => {
-    const fetchBike = async () => {
-      try {
-        const data = await getSingleBike(id);
-        setBike(data.bike);
-      } catch (error) {
-        setError("Failed to fetch bike details");
-      } finally {
-        setLoading(false);
-      }
-    };
+    
 
     fetchBike();
     fetchBookings();
-  }, [id, fetchBookings]);
+  }, [fetchBike, fetchBookings]);
 
   // Derived Values
   const totalDays =
@@ -175,7 +177,7 @@ function BikeDetailsPage() {
 
       alert(data.message);
 
-      fetchBike();
+      await fetchBike();
     } catch (error) {
       alert(error.response?.data?.message || "Purchase failed");
     }
