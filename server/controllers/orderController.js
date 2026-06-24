@@ -3,7 +3,7 @@ const Bike = require("../models/Bike");
 
 const buyBike = async (req, res) => {
   try {
-    const bike = await Bike.findById(req.params.BikeId);
+    const bike = await Bike.findById(req.params.bikeId);
 
     if (!bike) {
       return res.status(404).json({
@@ -14,6 +14,12 @@ const buyBike = async (req, res) => {
     if (bike.isSold) {
       return res.status(400).json({
         message: "Bike already sold",
+      });
+    }
+
+    if (bike.seller.toString() === req.user.id) {
+      return res.status(400).json({
+        message: "You cannot purchase your own bike",
       });
     }
 
