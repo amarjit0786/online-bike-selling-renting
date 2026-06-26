@@ -2,12 +2,23 @@ import { Link } from "react-router-dom";
 
 function BikeCard({ bike }) {
   return (
-    <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:scale-105 transition duration-300">
-      <img
-        src={bike.image}
-        alt={bike.title}
-        className="h-56 w-full object-cover"
-      />
+    <div className="relative bg-white rounded-2xl shadow-lg overflow-hidden hover:scale-105 transition duration-300">
+      {bike.isSold && (
+        <div className="absolute top-4 right-4 z-10 bg-red-600 text-white px-3 py-1 rounded-full text-xs font-bold shadow-lg">
+          🔴 SOLD
+        </div>
+      )}
+      <div className="relative">
+        <img
+          src={bike.image}
+          alt={bike.title}
+          className={`h-56 w-full object-cover transition ${
+            bike.isSold ? "opacity-60" : ""
+          }`}
+        />
+
+        {bike.isSold && <div className="absolute inset-0 bg-black/20"></div>}
+      </div>
 
       <div className="p-5">
         <h2 className="text-2xl font-bold">{bike.title}</h2>
@@ -17,7 +28,11 @@ function BikeCard({ bike }) {
         <p className="text-gray-600 mt-2">₹{bike.rentPerDay}/day Rent</p>
 
         <div className="mt-4 flex justify-between items-center">
-          <span className="text-yellow-500 font-bold text-xl">
+          <span
+            className={`font-bold text-xl ${
+              bike.isSold ? "text-red-500" : "text-yellow-500"
+            }`}
+          >
             ₹{bike.price}
           </span>
 
