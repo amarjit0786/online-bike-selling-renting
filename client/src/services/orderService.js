@@ -18,3 +18,16 @@ export const buyBike = async (bikeId,token)=>{
 
     return response.data;
 }
+
+export const getMyOrders = async (token)=>{
+    const response = await API.get(
+        "/my-orders",
+        {
+            headers:{
+                Authorization: `Bearer ${token}`,
+            }
+        }
+    )
+
+    return response.data;
+}
