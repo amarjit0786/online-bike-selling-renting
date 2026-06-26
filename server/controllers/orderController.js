@@ -46,4 +46,24 @@ const buyBike = async (req, res) => {
   }
 };
 
-module.exports = { buyBike };
+const getMyOrders = async (req, res) => {
+  try {
+    const orders = await Order.find({
+      buyer: req.user.id,
+    })
+      .populate("bike")
+      .populate("seller", "name email")
+      .sort({ createdAt: -1 });
+
+    res.status(200).json({
+      success: true,
+      orders,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
+module.exports = { buyBike,getMyOrders };
